@@ -9,15 +9,35 @@
 #import "AppDelegate.h"
 #import <BmobSDK/Bmob.h>
 #import "RootViewController.h"
+#import "LaunchScreenView.h"
+#import "AFNetworking.h"
+#import "YMViewController.h"
 
 @interface AppDelegate ()
-
+@property (strong, nonatomic)LaunchScreenView *launchView;
+@property (assign, nonatomic)BOOL isAuto;
+@property (strong, nonatomic)NSString *url;
 @end
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    //开启网络指示器，开始监听
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+    
+    // 检测网络连接的单例,网络变化时的回调方法
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        if (self.launchView) {
+            [self.launchView removeFromSuperview];
+            self.launchView = nil;
+        }
+        if (self.isAuto) {
+            
+        }
+    }];
+    
     
     [Bmob registerWithAppKey:@"4a66f81bd767b1f661b0e7a3a6ebcd32"];
     BmobQuery  *bquery = [BmobQuery queryWithClassName:@"info"];
@@ -26,12 +46,20 @@
             //进行错误处理
         }else{
             //表里有id为0c6db13c的数据
+            [self.launchView removeFromSuperview];
+            self.launchView = nil;
             if (object) {
                 //得到playerName和cheatMode
                 BOOL isAuto = [object objectForKey:@"isAuto"];
-                NSString *url = [object objectForKey:@"url"];
-
-                NSLog(@"%@----%@",isAuto?@"1":@"0",url);
+                self.url = [NSString stringWithFormat:@"%@",[object objectForKey:@"url"]];
+                if (isAuto) {
+                    YMViewController *webView = [[YMViewController alloc] init];
+                    [webView loadUrl:self.url];
+                    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+                    self.window.rootViewController = webView;
+                    [self.window makeKeyAndVisible];
+                }
+                NSLog(@"%@----%@",isAuto?@"1":@"0",self.url);
             }
         }
     }];
@@ -41,6 +69,9 @@
     self.window.rootViewController = root;
     [self.window makeKeyAndVisible];
 
+    
+    self.launchView = [LaunchScreenView initXiBView];
+    [self.launchView showOfView:root.view.window];
     
     return YES;
 }

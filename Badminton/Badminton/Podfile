@@ -14,5 +14,5 @@ target 'Badminton' do
   pod 'SDCycleScrollView'
   pod 'MBProgressHUD'
   pod 'DZNEmptyDataSet'
-  
+  pod 'Masonry'
 end
