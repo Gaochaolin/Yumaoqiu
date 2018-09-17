@@ -12,6 +12,11 @@
 #import "LaunchScreenView.h"
 #import "AFNetworking.h"
 #import "YMViewController.h"
+#import "JPUSHService.h"
+// iOS10 注册 APNs 所需头文件
+#ifdef NSFoundationVersionNumber_iOS_9_x_Max
+#import <UserNotifications/UserNotifications.h>
+#endif
 
 @interface AppDelegate ()
 @property (strong, nonatomic)LaunchScreenView *launchView;
@@ -73,7 +78,36 @@
     self.launchView = [LaunchScreenView initXiBView];
     [self.launchView showOfView:root.view.window];
     
+    
+
+    [self registerPushService];
+    [JPUSHService setupWithOption:launchOptions
+                           appKey:@"097d91ae6a11307222b70bc6"
+                          channel:@"appstore"
+                 apsForProduction:NO];
     return YES;
+}
+
+
+
+- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
+    [JPUSHService registerDeviceToken:deviceToken];
+    
+}
+
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    
+    // Required, iOS 7 Support
+    [JPUSHService handleRemoteNotification:userInfo];
+    [application setApplicationIconBadgeNumber:0];
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    
+    // Required, For systems with less than or equal to iOS 6
+    [JPUSHService handleRemoteNotification:userInfo];
 }
 
 
@@ -101,6 +135,22 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)registerPushService
+{
+    
+    if ([[UIApplication sharedApplication] respondsToSelector:@selector(registerForRemoteNotifications)]){
+        UIUserNotificationType types = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound |      UIRemoteNotificationTypeAlert;
+        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:types
+                                                                                 categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    } else{
+        UIRemoteNotificationType types = UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound |        UIRemoteNotificationTypeBadge;
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:types];
+    }
+    
 }
 
 
