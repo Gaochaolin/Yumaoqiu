@@ -1,0 +1,18 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'Badminton' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for Badminton
+  pod 'AFNetworking'
+  pod 'SDWebImage'
+  pod 'MJRefresh'
+  pod 'JPush'
+  pod 'BmobSDK'
+  pod 'SDCycleScrollView'
+  pod 'MBProgressHUD'
+  pod 'DZNEmptyDataSet'
+  
+end
