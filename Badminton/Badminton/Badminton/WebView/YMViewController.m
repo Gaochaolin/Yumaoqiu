@@ -11,6 +11,7 @@
 #import "MBProgressHUD.h"
 #import "AFNetworking.h"
 #import "MBProgressHUD+Ali.h"
+#import "AppDelegate.h"
 
 @interface YMViewController ()<UIWebViewDelegate>
 {
@@ -65,6 +66,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+
+    
 }
 
 - (void)loadUrl:(NSString *)urlstring{
@@ -84,8 +88,8 @@
     UIWebView * webView =[[UIWebView alloc] init];
     webView.scalesPageToFit = YES;
     webView.delegate =self;
+    webView.backgroundColor = [UIColor whiteColor];
     _web =webView;
-    webView.backgroundColor =[UIColor whiteColor];
     [self.view addSubview:webView];
     
     NSURL *url = [NSURL URLWithString:self.realUrl];

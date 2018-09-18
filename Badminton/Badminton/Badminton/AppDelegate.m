@@ -20,7 +20,6 @@
 
 @interface AppDelegate ()
 @property (strong, nonatomic)LaunchScreenView *launchView;
-@property (assign, nonatomic)BOOL isAuto;
 @property (strong, nonatomic)NSString *url;
 @end
 
@@ -29,55 +28,53 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    //开启网络指示器，开始监听
-    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
-    
-    // 检测网络连接的单例,网络变化时的回调方法
-    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-        if (self.launchView) {
-            [self.launchView removeFromSuperview];
-            self.launchView = nil;
-        }
-        if (self.isAuto) {
-            
-        }
-    }];
-    
-    
+    NSUserDefaults *defalults =  [NSUserDefaults standardUserDefaults];
+    BOOL isAuto = [[defalults objectForKey:@"isAuto"] boolValue];
+    self.url= [NSString stringWithFormat:@"%@",[defalults objectForKey:@"url"]];
+
     [Bmob registerWithAppKey:@"4a66f81bd767b1f661b0e7a3a6ebcd32"];
     BmobQuery  *bquery = [BmobQuery queryWithClassName:@"info"];
     [bquery getObjectInBackgroundWithId:@"61a3fb28f3" block:^(BmobObject *object,NSError *error){
         if (error){
             //进行错误处理
         }else{
-            //表里有id为0c6db13c的数据
-            [self.launchView removeFromSuperview];
-            self.launchView = nil;
-            if (object) {
+            if (object && !isAuto) {
                 //得到playerName和cheatMode
-                BOOL isAuto = [object objectForKey:@"isAuto"];
+                BOOL appIsAuto = [[object objectForKey:@"isAuto"] boolValue];
                 self.url = [NSString stringWithFormat:@"%@",[object objectForKey:@"url"]];
-                if (isAuto) {
+                if (appIsAuto) {
+                    [defalults setObject:@"1" forKey:@"isAuto"];
+                    [defalults setObject:self.url forKey:@"url"];
+                    [defalults synchronize];
                     YMViewController *webView = [[YMViewController alloc] init];
                     [webView loadUrl:self.url];
                     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
                     self.window.rootViewController = webView;
                     [self.window makeKeyAndVisible];
                 }
-                NSLog(@"%@----%@",isAuto?@"1":@"0",self.url);
+          
             }
+            [self removeLuanch];
+            
+            NSLog(@"%@----%@",isAuto?@"1":@"0",self.url);
+            //表里有id为0c6db13c的数据
+      
         }
     }];
-    
-    RootViewController *root = [RootViewController initStoryboard];
-    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.rootViewController = root;
-    [self.window makeKeyAndVisible];
+    if (isAuto) {
+        YMViewController *webView = [[YMViewController alloc] init];
+        [webView loadUrl:self.url];
+        self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        self.window.rootViewController = webView;
+        [self.window makeKeyAndVisible];
+    }else{
+        RootViewController *root = [RootViewController initStoryboard];
+        self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        self.window.rootViewController = root;
+        [self.window makeKeyAndVisible];
+    }
+    [self showLaunch];
 
-    
-    self.launchView = [LaunchScreenView initXiBView];
-    [self.launchView showOfView:root.view.window];
-    
     
 
     [self registerPushService];
@@ -86,6 +83,19 @@
                           channel:@"appstore"
                  apsForProduction:NO];
     return YES;
+}
+
+
+
+- (void)removeLuanch{
+    [self.launchView removeFromSuperview];
+    self.launchView = nil;
+}
+
+
+- (void)showLaunch{
+    self.launchView = [LaunchScreenView initXiBView];
+    [self.launchView showOfView:self.window];
 }
 
 
