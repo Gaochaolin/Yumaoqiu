@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3DB83115214950B900B80D3E /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB83114214950B900B80D3E /* RootViewController.m */; };
 		B998CD212FB2D25363F040E4 /* libPods-Badminton.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8596E32BAE98EE8792CBDD4C /* libPods-Badminton.a */; };
+		C604E29F2150EA6F005B39C6 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C604E29E2150EA6F005B39C6 /* CoreTelephony.framework */; };
 		C64E561D214217E400A7BB93 /* PersionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C64E561C214217E400A7BB93 /* PersionViewController.m */; };
 		C64E56202142187A00A7BB93 /* PersionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C64E561F2142187A00A7BB93 /* PersionTableViewCell.m */; };
 		C64E562321424A0400A7BB93 /* ViedoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C64E562221424A0400A7BB93 /* ViedoCollectionViewCell.m */; };
@@ -37,6 +38,7 @@
 		C676AA2C214FBCC90073D039 /* MBProgressHUD+Ali.m in Sources */ = {isa = PBXBuildFile; fileRef = C676AA2B214FBCC80073D039 /* MBProgressHUD+Ali.m */; };
 		C67AC1632148A7B6004C64DB /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C67AC1622148A7B6004C64DB /* CollectionViewController.m */; };
 		C67AC1662148AA53004C64DB /* VideoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C67AC1652148AA53004C64DB /* VideoTableViewCell.m */; };
+		C68FE2392151E31A00D4043C /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C68FE2382151E31A00D4043C /* MainViewController.m */; };
 		C6C1F5762140F1B400C61955 /* TRWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C1F5742140F1B300C61955 /* TRWebViewController.m */; };
 		C6C1F57A2140F6A800C61955 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C1F5792140F6A800C61955 /* BaseNavigationController.m */; };
 		C6C1F57D2140F85200C61955 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C1F57B2140F85100C61955 /* BaseViewController.m */; };
@@ -50,6 +52,7 @@
 		3DB83114214950B900B80D3E /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		8596E32BAE98EE8792CBDD4C /* libPods-Badminton.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Badminton.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6D7C3BAEA2D365BF23B4FBF /* Pods-Badminton.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Badminton.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Badminton/Pods-Badminton.debug.xcconfig"; sourceTree = "<group>"; };
+		C604E29E2150EA6F005B39C6 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		C64E561B214217E400A7BB93 /* PersionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PersionViewController.h; sourceTree = "<group>"; };
 		C64E561C214217E400A7BB93 /* PersionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PersionViewController.m; sourceTree = "<group>"; };
 		C64E561E2142187A00A7BB93 /* PersionTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PersionTableViewCell.h; sourceTree = "<group>"; };
@@ -95,6 +98,8 @@
 		C67AC1622148A7B6004C64DB /* CollectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionViewController.m; sourceTree = "<group>"; };
 		C67AC1642148AA53004C64DB /* VideoTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoTableViewCell.h; sourceTree = "<group>"; };
 		C67AC1652148AA53004C64DB /* VideoTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoTableViewCell.m; sourceTree = "<group>"; };
+		C68FE2372151E31A00D4043C /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		C68FE2382151E31A00D4043C /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		C6C1F5742140F1B300C61955 /* TRWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRWebViewController.m; sourceTree = "<group>"; };
 		C6C1F5752140F1B300C61955 /* TRWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRWebViewController.h; sourceTree = "<group>"; };
 		C6C1F5782140F6A700C61955 /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
@@ -113,6 +118,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C604E29F2150EA6F005B39C6 /* CoreTelephony.framework in Frameworks */,
 				B998CD212FB2D25363F040E4 /* libPods-Badminton.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -123,6 +129,7 @@
 		8940DA741BD0D541B3DFE83E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C604E29E2150EA6F005B39C6 /* CoreTelephony.framework */,
 				8596E32BAE98EE8792CBDD4C /* libPods-Badminton.a */,
 			);
 			name = Frameworks;
@@ -173,6 +180,7 @@
 		C655BD222140BC4800B09EA1 /* Badminton */ = {
 			isa = PBXGroup;
 			children = (
+				C68FE2362151E30100D4043C /* MainViewController */,
 				C676AA19214FBAEB0073D039 /* image */,
 				C676AA15214FBAB40073D039 /* WebView */,
 				C6FAAC8D214B529F0060790D /* Badminton.entitlements */,
@@ -265,6 +273,15 @@
 				C676AA21214FBAEB0073D039 /* icon_t4_nor@2x.png */,
 			);
 			path = image;
+			sourceTree = "<group>";
+		};
+		C68FE2362151E30100D4043C /* MainViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C68FE2372151E31A00D4043C /* MainViewController.h */,
+				C68FE2382151E31A00D4043C /* MainViewController.m */,
+			);
+			path = MainViewController;
 			sourceTree = "<group>";
 		};
 		C6C1F5772140F1B600C61955 /* CommentViewController */ = {
@@ -430,6 +447,7 @@
 				C655BD3C2140C46400B09EA1 /* SBRootViewController.m in Sources */,
 				C676AA18214FBAC00073D039 /* YMViewController.m in Sources */,
 				C6FDB3EB2140D59A004F33A5 /* HotTableViewCell.m in Sources */,
+				C68FE2392151E31A00D4043C /* MainViewController.m in Sources */,
 				C65822BB21460035002364D6 /* EquipmentViewController.m in Sources */,
 				C6C1F57A2140F6A800C61955 /* BaseNavigationController.m in Sources */,
 				C655BD332140BC4900B09EA1 /* main.m in Sources */,
@@ -618,7 +636,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.shaba.yumaoqiu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "f5d83065-6d18-4fac-b527-7e3026c2a681";
-				PROVISIONING_PROFILE_SPECIFIER = "YMQ-AD";
+				PROVISIONING_PROFILE_SPECIFIER = "ymq-dis";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "$(PODS_ROOT)/**";
 			};

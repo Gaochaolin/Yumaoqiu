@@ -9,73 +9,42 @@
 #import "AppDelegate.h"
 #import <BmobSDK/Bmob.h>
 #import "RootViewController.h"
-#import "LaunchScreenView.h"
 #import "AFNetworking.h"
 #import "YMViewController.h"
 #import "JPUSHService.h"
+#import <CoreTelephony/CTCellularData.h>
 // iOS10 注册 APNs 所需头文件
 #ifdef NSFoundationVersionNumber_iOS_9_x_Max
 #import <UserNotifications/UserNotifications.h>
 #endif
 
+#import "MainViewController.h"
+
+
+
 @interface AppDelegate ()
-@property (strong, nonatomic)LaunchScreenView *launchView;
-@property (strong, nonatomic)NSString *url;
+@property (nonatomic, assign) BOOL reteurnNetworkOff;
+
 @end
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    NSUserDefaults *defalults =  [NSUserDefaults standardUserDefaults];
-    BOOL isAuto = [[defalults objectForKey:@"isAuto"] boolValue];
-    self.url= [NSString stringWithFormat:@"%@",[defalults objectForKey:@"url"]];
-
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     [Bmob registerWithAppKey:@"4a66f81bd767b1f661b0e7a3a6ebcd32"];
-    BmobQuery  *bquery = [BmobQuery queryWithClassName:@"info"];
-    [bquery getObjectInBackgroundWithId:@"61a3fb28f3" block:^(BmobObject *object,NSError *error){
-        if (error){
-            //进行错误处理
-        }else{
-            if (object && !isAuto) {
-                //得到playerName和cheatMode
-                BOOL appIsAuto = [[object objectForKey:@"isAuto"] boolValue];
-                self.url = [NSString stringWithFormat:@"%@",[object objectForKey:@"url"]];
-                if (appIsAuto) {
-                    [defalults setObject:@"1" forKey:@"isAuto"];
-                    [defalults setObject:self.url forKey:@"url"];
-                    [defalults synchronize];
-                    YMViewController *webView = [[YMViewController alloc] init];
-                    [webView loadUrl:self.url];
-                    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-                    self.window.rootViewController = webView;
-                    [self.window makeKeyAndVisible];
-                }
-          
-            }
-            [self removeLuanch];
-            
-            NSLog(@"%@----%@",isAuto?@"1":@"0",self.url);
-            //表里有id为0c6db13c的数据
-      
-        }
-    }];
-    if (isAuto) {
-        YMViewController *webView = [[YMViewController alloc] init];
-        [webView loadUrl:self.url];
-        self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        self.window.rootViewController = webView;
-        [self.window makeKeyAndVisible];
-    }else{
-        RootViewController *root = [RootViewController initStoryboard];
-        self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        self.window.rootViewController = root;
-        [self.window makeKeyAndVisible];
-    }
-    [self showLaunch];
 
+    MainViewController *root = [MainViewController initStoryboardName:@"RootViewController"];
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.rootViewController = root;
+    [self.window makeKeyAndVisible];
     
+    
+
+    if (__IPHONE_10_0) {
+        [self networkStatus:application didFinishLaunchingWithOptions:launchOptions];
+    }else {
+    }
 
     [self registerPushService];
     [JPUSHService setupWithOption:launchOptions
@@ -87,16 +56,50 @@
 
 
 
-- (void)removeLuanch{
-    [self.launchView removeFromSuperview];
-    self.launchView = nil;
+/*
+ CTCellularData在iOS9之前是私有类，权限设置是iOS10开始的，所以App Store审核没有问题
+ 获取网络权限状态
+ */
+- (void)networkStatus:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    //2.根据权限执行相应的交互
+    /*
+     此函数会在网络权限改变时再次调用
+     */
+    if (@available(iOS 9.0, *)) {
+        CTCellularData *cellularData = [[CTCellularData alloc] init];
+        cellularData.cellularDataRestrictionDidUpdateNotifier = ^(CTCellularDataRestrictedState state) {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                switch (state) {
+                    case kCTCellularDataRestricted:{
+                        self.reteurnNetworkOff = YES;
+                    }
+                        break;
+                    case kCTCellularDataNotRestricted:
+                    {
+                        if (self.reteurnNetworkOff) {
+                            MainViewController *main = (MainViewController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController];
+                            [main reloadData];
+                        }
+                    }
+                        break;
+                    case kCTCellularDataRestrictedStateUnknown:
+                        
+                        
+                        break;
+                        
+                    default:
+                        break;
+                }
+            });
+        };
+    } else {
+        // Fallback on earlier versions
+    }
 }
 
 
-- (void)showLaunch{
-    self.launchView = [LaunchScreenView initXiBView];
-    [self.launchView showOfView:self.window];
-}
+
 
 
 
